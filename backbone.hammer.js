@@ -67,18 +67,18 @@
         var eventName = match[1], selector = match[2];
         eventName += '.hammerEvents' + this.cid;
         method = _.bind(method, this);
-        if (selector === '') {
-          this.hammer(options).bind(eventName, method);
-        } else {
-          this.hammer(options).bind(eventName, selector, method);
-        }
+        this.hammer(selector, options).bind(eventName, method);
       }
       return this;
     },
 
-    hammer: function(options){
+    hammer: function(selector, options){
       this._hammered = true;
-      return this.$el.hammer(options);
+      if ( selector === '' ) {
+        return this.$el.hammer(options);
+      } else {
+        return this.$el.find(selector).hammer(options);
+      }
     }
   });
 }));
